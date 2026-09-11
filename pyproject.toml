@@ -8,7 +8,11 @@ version = "0.1.0"
 description = "Local BTL project, recipe, run and evidence coordination"
 license = {file = "LICENSE"}
 requires-python = ">=3.11"
-dependencies = ["btl-train==0.1.0", "btl-kernels==0.1.0", "btl-measure==0.1.0"]
+dependencies = [
+    "btl-train @ git+https://github.com/Badtheorylabs/btl-train.git@d292f8da0c4352e753b5940dc3ffe7fa70ef93c7",
+    "btl-kernels @ git+https://github.com/Badtheorylabs/btl-kernels.git@31740c780c1a0498aaee970d5e996699333d045f",
+    "btl-measure @ git+https://github.com/Badtheorylabs/btl-measure.git@4945525249e553832c73da848cdfce6349842ac2"
+]
 
 [project.scripts]
 btl = "btl_lab.cli:main"
