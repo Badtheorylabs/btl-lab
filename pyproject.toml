@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "btl-lab"
+version = "0.1.0"
+description = "Local BTL project, recipe, run and evidence coordination"
+license = {file = "LICENSE"}
+requires-python = ">=3.11"
+dependencies = ["btl-train==0.1.0", "btl-kernels==0.1.0", "btl-measure==0.1.0"]
+
+[project.scripts]
+btl = "btl_lab.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["btl_lab*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = [".", "../btl-train", "../btl-kernels", "../btl-measure"]

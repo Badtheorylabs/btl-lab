@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "lanes": [
+    {
+      "id": "research",
+      "preferred": "btl-lab",
+      "status": "protocol-coordination-implemented",
+      "scope": "Questions, frozen protocols, linked engine/evaluation runs, readiness audits, comparisons, decisions and evidence",
+      "display_name": "BTL Lab"
+    },
+    {
+      "id": "sft",
+      "preferred": "unsloth-core",
+      "status": "a100-profile-qualified-experimental",
+      "comparison": "trl-transformers",
+      "control_stages": [
+        "accepted-tokenized-data-check",
+        "environment-version-check",
+        "bounded-launch",
+        "checkpoint-integrity-resume",
+        "adapter-export",
+        "held-out-loss"
+      ],
+      "model_execution": "implemented; Qwen3.5-0.8B A100 profile qualified; production gate pending",
+      "entrypoint": "btl adapt",
+      "local_validation": {
+        "backend": "mlx",
+        "model": "Qwen3.5-0.8B",
+        "scope": "synthetic field-extraction execution and recovery",
+        "status": "local-gates-passed",
+        "unsloth_cuda_qualified": false,
+        "clean_environment_reproduction": false
+      },
+      "display_name": "BTL Adapt",
+      "qualification": {
+        "report": "private/workspace/lab-state/btl-adapt-a100-08b-20260909/a03-result.json",
+        "gpu": "A100-40GB",
+        "status": "passed",
+        "external_billing_usd": "0.31017790",
+        "capability_gain_demonstrated": false,
+        "speedup_claim": false
+      }
+    },
+    {
+      "id": "distillation",
+      "preferred": "prime-rl",
+      "status": "integration-planned",
+      "comparison": "nemo-rl",
+      "control_stages": [
+        "operation-plan",
+        "input-integrity-preflight"
+      ],
+      "model_execution": "not-implemented",
+      "display_name": "BTL Relay"
+    },
+    {
+      "id": "agentic-rl",
+      "preferred": "prime-rl",
+      "status": "local-rl-mechanics-qualified",
+      "comparison": "areal",
+      "control_stages": [
+        "operation-plan",
+        "input-integrity-preflight"
+      ],
+      "model_execution": "not-implemented",
+      "display_name": "BTL Advance"
+    },
+    {
+      "id": "large-moe",
+      "preferred": "pending-exact-model-audit",
+      "status": "planned",
+      "comparison": "prime-rl/nemo-rl/slime",
+      "control_stages": [
+        "operation-plan",
+        "input-integrity-preflight"
+      ],
+      "model_execution": "local contextual-bandit execution and resume qualified; agentic/Prime-RL path pending",
+      "local_qualification": {
+        "report": "platform/btl-train/ADVANCE.md",
+        "model": "Qwen3.5-0.8B",
+        "backend": "mlx-local",
+        "status": "passed-mechanics-only",
+        "full_run_id": "20260909T233619-89ded8bbf5",
+        "split_run_ids": [
+          "20260909T233955-99c1ec6048",
+          "20260909T234038-35d93dac62"
+        ],
+        "capability_gain_claim": false,
+        "external_spend_usd": 0
+      }
+    },
+    {
+      "id": "pretraining",
+      "preferred": "pending-comparison",
+      "status": "planned",
+      "comparison": "torchtitan/megatron-core",
+      "control_stages": [
+        "operation-plan",
+        "input-integrity-preflight"
+      ],
+      "model_execution": "not-implemented",
+      "display_name": "BTL Seed"
+    },
+    {
+      "id": "inference",
+      "preferred": "pending-comparison",
+      "status": "planned",
+      "comparison": "vllm/sglang",
+      "control_stages": [
+        "operation-plan",
+        "input-integrity-preflight"
+      ],
+      "model_execution": "not-implemented",
+      "display_name": "BTL Serve"
+    },
+    {
+      "id": "kernels",
+      "preferred": "per-operator-selection",
+      "status": "source-integrity-check-implemented",
+      "comparison": "liger/quack/flash-attention/fla/flashqla/flashinfer",
+      "display_name": "BTL Alloy"
+    },
+    {
+      "id": "environments",
+      "preferred": "verifiers-harbor-interop",
+      "status": "integration-planned",
+      "name": "unselected",
+      "display_name": "BTL Fieldwork"
+    },
+    {
+      "id": "evaluation",
+      "display_name": "BTL Measure",
+      "preferred": "btl-measure",
+      "status": "per-item-validation-and-comparison-implemented",
+      "scope": "Independent per-item evaluation, regression and paired comparison",
+      "model_execution": "external-evaluator-input; no model execution"
+    }
+  ]
+}

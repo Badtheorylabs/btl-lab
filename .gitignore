@@ -1,0 +1,13 @@
+.state
+__pycache__/
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+# Private workspace inventory and audit material are not release inputs.
+projects.json
+*CLEANUP*.json
+LARGE_FILE_INVENTORY*.json
+cleanup-*
+disk-audit-*
+source-review-*
