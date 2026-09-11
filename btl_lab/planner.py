@@ -5,7 +5,7 @@ import platform
 from pathlib import Path
 
 from .workspace import Workspace, inside, sha256
-from btl_train.prime_rl import inspect_prime_rl
+from btl_rl.prime_rl import inspect_prime_rl
 
 
 def plan(workspace: Workspace, recipe_id: str, checkout: Path | None = None) -> dict:

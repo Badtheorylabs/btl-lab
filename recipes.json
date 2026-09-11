@@ -21,7 +21,7 @@
     {
       "id": "prime-rl-reverse-text",
       "title": "Plan the pinned upstream reverse-text integration recipe",
-      "project_id": "workspace/btl-train",
+      "project_id": "workspace/btl-rl",
       "backend": "prime-rl",
       "operation": "rl",
       "status": "plan-only",

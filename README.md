@@ -24,16 +24,17 @@ From the BTL workspace:
 ./btl runs
 ```
 
-Python 3.11 or newer is required. The workspace launcher tries an installed Python 3.13/3.12/3.11 if `python3` is older. It downloads nothing. The implementation uses the Python standard library plus the sibling BTL Train and BTL Kernels packages. It adds no model weights, GPU packages or virtual environment. The package also declares a `btl` console entry point for a later installation.
+Python 3.11 or newer is required. The workspace launcher tries an installed Python 3.13/3.12/3.11 if `python3` is older. It downloads nothing. The implementation uses the Python standard library plus the sibling BTL Train, BTL RL, BTL Kernels and BTL Measure packages. It adds no model weights, GPU packages or virtual environment. The package also declares a `btl` console entry point for a later installation.
 
-For a standalone editable checkout, clone the four stack repositories and install the local packages together:
+For a standalone editable checkout, clone the five stack repositories and install the local packages together:
 
 ```sh
 git clone https://github.com/Badtheorylabs/btl-train.git
+git clone https://github.com/Badtheorylabs/btl-rl.git
 git clone https://github.com/Badtheorylabs/btl-kernels.git
 git clone https://github.com/Badtheorylabs/btl-measure.git
 git clone https://github.com/Badtheorylabs/btl-lab.git
-python3.13 -m pip install -e btl-train -e btl-kernels -e btl-measure -e btl-lab
+python3.13 -m pip install -e btl-train -e btl-rl -e btl-kernels -e btl-measure -e btl-lab
 ```
 
 Use `./btl --json projects` for structured output. `--json` and `--workspace` precede the subcommand. The CLI discovers the workspace from the current directory or its parents; `BTL_WORKSPACE` and `--workspace` support explicit selection.
@@ -45,7 +46,7 @@ Use `./btl --json projects` for structured output. `--json` and `--workspace` pr
 ./btl project research/tinfield_learning_2026-09-08
 ./btl project research/tinfield_learning_2026-09-08 --next-gate "Review the existing estimator result before another experiment"
 ./btl evidence --project research/tinfield_learning_2026-09-08 --file research/tinfield_learning_2026-09-08/RESULT_LOCAL_CREDIT_08B.md --label existing-local-credit-result
-./btl decision workspace/btl-train "Prime-RL is the preferred RL foundation; exact-workload validation remains required"
+./btl decision workspace/btl-rl "Prime-RL is the preferred RL foundation; exact-workload validation remains required"
 ```
 
 Project updates are overlays in SQLite, preserving the original discovery record. Owners stay unassigned until explicitly set with `--owner`. A project lifecycle and the quality of its evidence are separate fields. An imported receipt receives `recorded` / `reported-unreviewed`, never a new training success. Attaching it hashes the file and records its location without copying large artifacts.
@@ -72,7 +73,7 @@ The other lanes are represented in `backends.json` with explicit implementation 
 - Check events progress from planned to running to passed/failed/interrupted. A blocked backend records its blockers and exits nonzero.
 - `private/workspace/lab-state/lab.sqlite3` stores runs, decisions, project overlays and artifact references. Its `results/` directory stores local audit receipts. These paths are outside this repository; `.btl-workspace.json` locates them. Preserve this private state when retaining run history.
 
-`private/workspace/projects.json` now holds the original 42 discovery entries plus the shared Lab, Train and Kernels projects. The old `projects.json` and `.state` paths are ignored compatibility links. Existing entries remain untriaged unless reviewed; directory names and document existence are not capability evidence. Program assignments from the original scan remain tentative.
+`private/workspace/projects.json` now holds the original 42 discovery entries plus the shared Lab, Train, RL, Kernels and Measure projects. The old `projects.json` and `.state` paths are ignored compatibility links. Existing entries remain untriaged unless reviewed; directory names and document existence are not capability evidence. Program assignments from the original scan remain tentative.
 
 ## Validation
 
@@ -89,7 +90,7 @@ The project registry, state database, evidence files and disk-audit material are
 
 ## Repository boundary
 
-This directory is the Lab code repository. The Prime-RL inspector lives in [BTL Train](https://github.com/Badtheorylabs/btl-train); the manifest checker lives in [BTL Kernels](https://github.com/Badtheorylabs/btl-kernels). The root workspace launcher adds these local packages to its import path. Private registries, SQLite state, source-review snapshots and disk audits stay in the local BTL workspace and are not release inputs.
+This directory is the Lab code repository. The Prime-RL inspector and BTL Advance worker live in [BTL RL](https://github.com/Badtheorylabs/btl-rl); operation contracts and supervised execution live in [BTL Train](https://github.com/Badtheorylabs/btl-train); the manifest checker lives in [BTL Kernels](https://github.com/Badtheorylabs/btl-kernels); and independent evaluation lives in [BTL Measure](https://github.com/Badtheorylabs/btl-measure). The root workspace launcher adds these local packages to its import path. Private registries, SQLite state, source-review snapshots and disk audits stay in the local BTL workspace and are not release inputs.
 
 The specialized `btl adapt` command provides BTL Adapt's Unsloth-backed supervised worker. Its Qwen3.5-0.8B A100 profile passed execution, adapter serialization, resume, fresh-process reload and fixed-task behavior-retention checks. It has no demonstrated capability gain or speedup claim. See [the fine-tuning guide](https://github.com/Badtheorylabs/btl-train/blob/main/FINETUNE.md).
 

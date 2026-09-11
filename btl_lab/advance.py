@@ -4,8 +4,8 @@ import json
 import os
 from pathlib import Path
 
-from btl_train.advance_local import DEFAULT_GROUP_SIZE, DEFAULT_MAX_SECONDS, DEFAULT_STEPS, SEED, sha256
-from btl_train.process import run_process
+from btl_rl.advance_local import DEFAULT_GROUP_SIZE, DEFAULT_MAX_SECONDS, DEFAULT_STEPS, SEED, sha256
+from btl_rl.process import run_process
 
 from .checks import artifact_record
 from .store import Store
@@ -42,8 +42,8 @@ def execute_advance(args, workspace: Workspace, store: Store) -> dict:
     if args.experiment:
         from .research import Research
         experiment = Research(workspace, store).get(args.experiment)
-        if experiment["project_id"] != "workspace/btl-train" or experiment["status"] == "decided":
-            raise ValueError("Advance run must link to an open workspace/btl-train experiment")
+        if experiment["project_id"] not in {"workspace/btl-rl", "workspace/btl-train"} or experiment["status"] == "decided":
+            raise ValueError("Advance run must link to an open workspace/btl-rl experiment")
     interpreter = args.python or Path(os.environ.get("BTL_MLX_PYTHON", str(workspace.root / ".mlxvenv/bin/python")))
     if not interpreter.is_file():
         raise ValueError(f"MLX interpreter is missing: {interpreter}")
@@ -53,7 +53,7 @@ def execute_advance(args, workspace: Workspace, store: Store) -> dict:
         if not output.is_relative_to(workspace.root):
             raise ValueError("--out must stay inside the workspace")
     # Store first so the durable run ID determines the output directory.
-    plan = {"schema_version": 1, "project_id": "workspace/btl-train",
+    plan = {"schema_version": 1, "project_id": "workspace/btl-rl",
             "recipe_id": "advance:mlx-local-contextual-bandit-v1", "backend": "mlx-local",
             "engine": "BTL Advance", "model": str(args.model), "model_revision": args.model.name,
             "steps": args.steps, "total_steps": total_steps or args.steps,
@@ -61,12 +61,12 @@ def execute_advance(args, workspace: Workspace, store: Store) -> dict:
             "objective": "group-relative-policy-gradient", "seed": SEED,
             "experiment_id": args.experiment, "external_spend_usd": 0,
             "scope": "Local contextual-bandit RL execution; not agentic-RL or Tinfield capability evidence",
-            "implementation_sha256": sha256(Path(__file__).resolve().parents[2] / "btl-train/btl_train/advance_local.py")}
+            "implementation_sha256": sha256(Path(__file__).resolve().parents[2] / "btl-rl/btl_rl/advance_local.py")}
     run_id = store.create(plan, kind="model-operation-advance-local")
     if args.out is None:
         output = workspace.state / "advance" / run_id
     output.mkdir(parents=True, exist_ok=False)
-    command = [str(interpreter), "-m", "btl_train.advance_local", "--model", str(args.model),
+    command = [str(interpreter), "-m", "btl_rl.advance_local", "--model", str(args.model),
                "--out", str(output), "--steps", str(args.steps), "--group-size", str(args.group_size),
                "--max-seconds", str(args.max_seconds)]
     if total_steps is not None:
@@ -74,7 +74,9 @@ def execute_advance(args, workspace: Workspace, store: Store) -> dict:
     if args.resume:
         command.extend(["--resume", str(args.resume)])
     env = os.environ.copy()
-    env.update(PYTHONPATH=str(workspace.root / "platform/btl-train") + os.pathsep + env.get("PYTHONPATH", ""),
+    env.update(PYTHONPATH=os.pathsep.join(str(workspace.root / component) for component in
+                                          ("platform/btl-rl", "platform/btl-train"))
+               + os.pathsep + env.get("PYTHONPATH", ""),
                HF_HUB_OFFLINE="1", TRANSFORMERS_OFFLINE="1", TOKENIZERS_PARALLELISM="false")
     store.transition(run_id, "running")
     try:

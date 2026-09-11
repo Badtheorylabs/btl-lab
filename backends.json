@@ -56,6 +56,7 @@
     {
       "id": "agentic-rl",
       "preferred": "prime-rl",
+      "repository": "btl-rl",
       "status": "local-rl-mechanics-qualified",
       "comparison": "areal",
       "control_stages": [
@@ -68,6 +69,7 @@
     {
       "id": "large-moe",
       "preferred": "pending-exact-model-audit",
+      "repository": "btl-rl",
       "status": "planned",
       "comparison": "prime-rl/nemo-rl/slime",
       "control_stages": [

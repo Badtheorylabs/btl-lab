@@ -2,7 +2,7 @@
 
 - Use the existing project registry, recipe catalog and SQLite ledger. Do not create a second current-status database in dated Markdown files.
 - The root `btl` launcher is the workspace entry point. Keep the control package dependency-free and avoid importing training frameworks at module import time.
-- Prime-RL is the preferred RL backend. BTL Adapt is the supervised fine-tuning product; Unsloth Core is its current backend. Catalog entries do not imply an installed or validated integration beyond the explicitly recorded profile.
+- Prime-RL is the preferred RL backend and BTL RL owns its integration. BTL Adapt is the supervised fine-tuning product; Unsloth Core is its current backend. Catalog entries do not imply an installed or validated integration beyond the explicitly recorded profile.
 - BTL Measure is the independent evaluation product. Recompute per-item scores and preserve incomparable/failed reports; never treat training rewards or self-reported aggregates as release evidence.
 - Keep local audit success, imported evidence, hardware validation and model-quality results distinct. Never promote a result because a hash or configuration check passes.
 - Preserve artifact paths and record hashes rather than copying weights into the ledger.

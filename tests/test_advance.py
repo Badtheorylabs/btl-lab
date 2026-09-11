@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 from btl_lab.advance import execute_advance
-from btl_train.advance_local import (
+from btl_rl.advance_local import (
     action_token_ids,
     contract_hash,
     group_advantages,
