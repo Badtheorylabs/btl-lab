@@ -106,7 +106,7 @@ def execute(args, workspace: Workspace, store: Store):
                                 "frozen research protocols and comparisons", "explicit model-operation input preflight",
                                 "linked evidence runs and readiness-gated research decisions",
                                 "BTL Adapt A100 profile and recovery qualification",
-                                "BTL Advance local RL mechanics and recovery qualification",
+                                "BTL RL / BTL Advance local RL mechanics and recovery qualification",
                                 "BTL Measure per-item evaluation comparisons"],
                 "not_enabled": ["production-qualified GPU recipes", "cloud provisioning", "paid model calls", "automatic publication"]}
     if args.command == "projects":
