@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "lanes": [
+    {
+      "id": "research",
+      "preferred": "btl-lab",
+      "display_name": "BTL Lab",
+      "status": "protocol-coordination-implemented"
+    },
+    {
+      "id": "sft",
+      "preferred": "unsloth-core",
+      "display_name": "BTL Adapt",
+      "status": "requires-pinned-cuda-runtime"
+    },
+    {
+      "id": "agentic-rl",
+      "preferred": "prime-rl",
+      "display_name": "BTL Advance",
+      "status": "local-mechanics-only"
+    },
+    {
+      "id": "evaluation",
+      "preferred": "btl-measure",
+      "display_name": "BTL Measure",
+      "status": "per-item-comparison-implemented"
+    },
+    {
+      "id": "kernels",
+      "preferred": "upstream-integrations",
+      "display_name": "BTL Alloy",
+      "status": "source-integrity-only"
+    }
+  ]
+}

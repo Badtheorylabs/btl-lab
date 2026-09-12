@@ -31,6 +31,8 @@ class Workspace:
     def __init__(self, root: Path):
         self.root = root.resolve()
         marker = self.root / ".btl-workspace.json"
+        if not marker.is_file() and not (self.root / "btl-lab/projects.json").is_file():
+            raise ValueError(f'No BTL workspace at {self.root}. Run: btl init PATH')
         layout = read_json(marker) if marker.is_file() else {}
         if layout and layout.get("schema_version") != 1:
             raise ValueError("Unsupported workspace layout version")

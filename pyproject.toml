@@ -4,22 +4,29 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "btl-lab"
-version = "0.1.0"
+version = "0.2.0"
 description = "Local BTL project, recipe, run and evidence coordination"
 license = {file = "LICENSE"}
 requires-python = ">=3.11"
 dependencies = [
     "btl-train @ git+https://github.com/Badtheorylabs/btl-train.git@54366046e1b18725a0a3421add874b58594dc667",
-    "btl-rl @ git+https://github.com/Badtheorylabs/btl-rl.git@dfb03759b97d1b956103eb484a973e5de720ac04",
+    "btl-rl @ git+https://github.com/Badtheorylabs/btl-rl.git@947bcda34a758b38cddade4fa505fb9daa259420",
     "btl-kernels @ git+https://github.com/Badtheorylabs/btl-kernels.git@31740c780c1a0498aaee970d5e996699333d045f",
-    "btl-measure @ git+https://github.com/Badtheorylabs/btl-measure.git@4945525249e553832c73da848cdfce6349842ac2"
+    "btl-measure @ git+https://github.com/Badtheorylabs/btl-measure.git@6ebc5d7966d43bcdf43ffca33e062584493453a8"
 ]
 
 [project.scripts]
 btl = "btl_lab.cli:main"
 
+[project.optional-dependencies]
+mlx = ["btl-rl[mlx] @ git+https://github.com/Badtheorylabs/btl-rl.git@947bcda34a758b38cddade4fa505fb9daa259420"]
+test = ["pytest>=8", "numpy>=2"]
+
 [tool.setuptools.packages.find]
 include = ["btl_lab*"]
+
+[tool.setuptools.package-data]
+btl_lab = ["resources/*.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

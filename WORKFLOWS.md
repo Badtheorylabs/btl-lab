@@ -2,6 +2,8 @@
 
 The research engine owns questions, protocols, attempts, comparisons and decisions. Train owns explicit model-operation contracts. Both use Lab's existing private SQLite ledger and immutable run plans. The control packages remain small and use no GPU libraries.
 
+For a new installation, run `btl init PATH` and work from that directory. The installed `btl` command supports the same workflows as the original workspace launcher. `btl doctor` diagnoses setup before a run. See the [installation guide](README.md).
+
 ## Start with a research question
 
 A draft needs only a project, title and question. Save a workspace-local JSON document in this shape, using a project ID from `btl projects`:
@@ -75,8 +77,8 @@ Model execution, output evaluation, artifact export and paid-resource control re
 
 ## Current validation and research intake
 
-The combined control suite has 82 passing tests, including the original registry/planner tests and lifecycle, budget, drift, evidence-class, operation-contract, report, evidence-link and BTL Adapt/Advance/Measure controls. The research ledger contains four draft questions: matched agentic RL foundations, Unsloth SFT efficiency, Tinfield learning efficiency, and selecting measured GPU bottlenecks. No scientific comparison or capability gain was established; the bounded A100 execution qualification is recorded separately.
+The control suite covers registry/planner behavior, lifecycle, budget, drift, evidence-class, operation contracts, evidence links and Adapt/Advance/Measure controls. The installed-package verifier also exercises workspace initialization and the complete local research lifecycle without a source checkout. The original private BTL ledger contains four draft research questions; new workspaces start with no recorded experiments. No scientific comparison or capability gain is established by these control checks.
 
 ## Specialized supervised execution
 
-The `btl adapt` entry point implements BTL Adapt's Unsloth-backed SFT worker with its own strict recipe. Generic operation plans above remain planning/input checks. See [the fine-tuning engine](../btl-train/FINETUNE.md) for the separate execution contract and hardware-validation boundary. A Qwen3.5-0.8B A100 profile has passed bounded execution and recovery checks; production support is still gated.
+The `btl adapt` entry point implements BTL Adapt's Unsloth-backed SFT worker with its own strict recipe. Generic operation plans above remain planning/input checks. See [the fine-tuning engine](https://github.com/Badtheorylabs/btl-train/blob/main/FINETUNE.md) for the separate execution contract and hardware-validation boundary. A Qwen3.5-0.8B A100 profile has passed bounded execution and recovery checks; production support is still gated.

@@ -11,6 +11,7 @@ from btl_train.finetune_data import audit, digest, fingerprint, validate_config
 from btl_train.process import run_process
 
 from .checks import artifact_record
+from .doctor import worker_environment
 from .workspace import inside, read_json
 
 
@@ -74,14 +75,21 @@ def execute_finetune(args, workspace, store):
               "scope": "Input structural/integrity checks; no training or capability result"}
     try:
         if not getattr(args, "data_only", False):
-            proc = subprocess.run(command + ["--doctor"], capture_output=True, text=True,
-                                  cwd=workspace.root, env=env, timeout=30)
-            if proc.returncode:
+            proc = subprocess.run([args.python, "-m", "btl_lab.runtime_probe"], input=json.dumps(config),
+                                  capture_output=True, text=True, cwd=workspace.root,
+                                  env=worker_environment("btl_lab", "btl_train"), timeout=30)
+            if proc.returncode not in {0, 2}:
                 raise ValueError("Backend environment check failed: " + proc.stderr[-1500:])
             runtime = json.loads(proc.stdout)
             result["runtime"] = runtime
             if not runtime["ready_for_worker_start"]:
-                store.transition(run_id, "blocked", result | {"passed": False})
+                result["passed"] = False
+                blocked_receipt = directory / "result.json"
+                blocked_receipt.write_text(json.dumps(result, indent=2) + "\n")
+                for file in (request_file, blocked_receipt):
+                    store.attach(run_id, artifact_record(workspace, str(file.relative_to(workspace.root)),
+                                                         file.name, "preflight-only"))
+                store.transition(run_id, "blocked", result)
                 return store.run(run_id)
         store.transition(run_id, "running")
         if args.action == "run":

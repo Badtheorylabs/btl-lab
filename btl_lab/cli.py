@@ -5,6 +5,7 @@ import json
 import os
 import sqlite3
 import sys
+import subprocess
 from pathlib import Path
 
 from .checks import artifact_record, verify_artifacts
@@ -33,9 +34,19 @@ def default_workspace() -> Path:
 
 def parser() -> argparse.ArgumentParser:
     cli = argparse.ArgumentParser(description="BTL projects, local checks, plans and evidence")
+    from . import __version__
+    cli.add_argument("--version", action="version", version="BTL Lab " + __version__)
     cli.add_argument("--workspace", type=Path, default=default_workspace())
     cli.add_argument("--json", action="store_true", help="Machine-readable output")
     sub = cli.add_subparsers(dest="command", required=True)
+    init = sub.add_parser("init", help="Create a portable workspace in a new or empty directory")
+    init.add_argument("path", type=Path)
+    doctor = sub.add_parser("doctor", help="Check workspace and selected runtime without executing models")
+    doctor.add_argument("--engine", choices=["control", "advance", "adapt", "prime-rl", "measure"], default="control")
+    doctor.add_argument("--python", default=sys.executable)
+    doctor.add_argument("--model", type=Path)
+    doctor.add_argument("--recipe", type=Path)
+    doctor.add_argument("--checkout", type=Path)
     add_workflows(sub)
     add_finetune(sub)
     add_advance(sub)
@@ -101,12 +112,12 @@ def execute(args, workspace: Workspace, store: Store):
         return {"workspace": str(workspace.root), "model_family": "Tinfield",
                 "projects": len(projects), "untriaged": sum(p["lifecycle"] == "untriaged" for p in projects),
                 "recorded_runs": len(runs), "preferred_rl": "prime-rl",
-                "implemented": ["project registry", "decisions", "local integrity checks",
+                "implemented": ["portable workspace initialization", "runtime diagnosis", "project registry", "decisions", "local integrity checks",
                                 "artifact ledger", "pinned Prime-RL planning",
                                 "frozen research protocols and comparisons", "explicit model-operation input preflight",
                                 "linked evidence runs and readiness-gated research decisions",
-                                "BTL Adapt A100 profile and recovery qualification",
-                                "BTL RL / BTL Advance local RL mechanics and recovery qualification",
+                                "BTL Adapt pinned supervised execution",
+                                "BTL RL / BTL Advance local execution, resume and Measure handoff",
                                 "BTL Measure per-item evaluation comparisons"],
                 "not_enabled": ["production-qualified GPU recipes", "cloud provisioning", "paid model calls", "automatic publication"]}
     if args.command == "projects":
@@ -189,6 +200,15 @@ def main(argv=None) -> int:
     args = parser().parse_args(argv)
     store = None
     try:
+        if args.command == "init":
+            from .bootstrap import initialize
+            display(initialize(args.path), args.command, args.json)
+            return 0
+        if args.command == "doctor":
+            from .doctor import diagnose
+            value = diagnose(args)
+            display(value, args.command, args.json)
+            return 0 if value["ready"] else 2
         workspace = Workspace(args.workspace)
         store = Store(workspace.state / "lab.sqlite3")
         value = execute(args, workspace, store)
@@ -208,8 +228,10 @@ def main(argv=None) -> int:
                 return 2
             if args.action == "compare" and not value["comparable"]:
                 return 2
+            if args.action == "ready" and not value["ready_for_decision"]:
+                return 2
         return 0
-    except (ValueError, OSError, KeyError, sqlite3.Error) as error:
+    except (ValueError, OSError, KeyError, sqlite3.Error, subprocess.SubprocessError) as error:
         print(f"btl: {error}", file=sys.stderr)
         return 2
     finally:

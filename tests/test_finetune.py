@@ -124,6 +124,21 @@ def test_subprocess_timeout_is_enforced(tmp_path):
     assert "started" in (tmp_path / "worker.log").read_text()
 
 
+def test_backend_preflight_block_keeps_verifiable_receipts(sft, capsys, monkeypatch):
+    from types import SimpleNamespace
+    from btl_lab.checks import verify_artifacts
+
+    workspace, store, config = sft
+    (workspace.root / "sft.json").write_text(json.dumps(config))
+    probe = {"ready_for_worker_start": False, "blockers": ["CUDA device is unavailable"]}
+    monkeypatch.setattr("btl_lab.finetune.subprocess.run", lambda *a, **k:
+                        SimpleNamespace(returncode=2, stdout=json.dumps(probe), stderr=""))
+    assert main(["--workspace", str(workspace.root), "--json", "adapt", "check", "sft.json"]) == 2
+    run = json.loads(capsys.readouterr().out)
+    assert run["status"] == "blocked"
+    assert verify_artifacts(workspace, store.run(run["id"]))["passed"]
+
+
 def test_child_failure_is_not_success(tmp_path):
     result = run_process([sys.executable, "-c", "raise SystemExit(7)"], tmp_path,
                          tmp_path / "worker.log", 5, os.environ.copy())

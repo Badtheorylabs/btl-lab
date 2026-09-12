@@ -63,22 +63,10 @@
         "operation-plan",
         "input-integrity-preflight"
       ],
-      "model_execution": "not-implemented",
-      "display_name": "BTL Advance"
-    },
-    {
-      "id": "large-moe",
-      "preferred": "pending-exact-model-audit",
-      "repository": "btl-rl",
-      "status": "planned",
-      "comparison": "prime-rl/nemo-rl/slime",
-      "control_stages": [
-        "operation-plan",
-        "input-integrity-preflight"
-      ],
-      "model_execution": "local contextual-bandit execution and resume qualified; agentic/Prime-RL path pending",
+      "model_execution": "Local Qwen3.5 contextual-bandit execution, resume and Measure handoff; Prime-RL execution pending",
+      "display_name": "BTL Advance",
       "local_qualification": {
-        "report": "platform/btl-train/ADVANCE.md",
+        "report": "https://github.com/Badtheorylabs/btl-rl/blob/main/README.md",
         "model": "Qwen3.5-0.8B",
         "backend": "mlx-local",
         "status": "passed-mechanics-only",
@@ -90,6 +78,18 @@
         "capability_gain_claim": false,
         "external_spend_usd": 0
       }
+    },
+    {
+      "id": "large-moe",
+      "preferred": "pending-exact-model-audit",
+      "repository": "btl-rl",
+      "status": "planned",
+      "comparison": "prime-rl/nemo-rl/slime",
+      "control_stages": [
+        "operation-plan",
+        "input-integrity-preflight"
+      ],
+      "model_execution": "not-implemented"
     },
     {
       "id": "pretraining",

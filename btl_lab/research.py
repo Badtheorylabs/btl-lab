@@ -12,6 +12,10 @@ import btl_rl.advance_local as advance_local
 import btl_rl.prime_rl as prime_rl
 import btl_rl.process as rl_process
 import btl_train.operations as train_operations
+import btl_rl.artifacts as rl_artifacts
+import btl_rl.evaluation as rl_evaluation
+import btl_rl.runtime as rl_runtime
+import btl_measure.core as measure_core
 
 from .checks import artifact_record, verify_artifacts
 from .planner import plan
@@ -27,12 +31,17 @@ def fingerprint(value) -> str:
 def implementation_sources() -> dict:
     package = Path(__file__).parent
     sources = {"btl_lab/" + name: package / name for name in
-               ("research.py", "runner.py", "checks.py", "planner.py", "store.py", "workspace.py")}
+               ("research.py", "runner.py", "checks.py", "planner.py", "store.py", "workspace.py",
+                "advance.py", "measure.py", "doctor.py", "finetune.py", "runtime_probe.py", "workflow_cli.py")}
     sources["btl_kernels/manifest.py"] = Path(kernel_manifest.__file__)
     sources["btl_rl/advance_local.py"] = Path(advance_local.__file__)
     sources["btl_rl/prime_rl.py"] = Path(prime_rl.__file__)
     sources["btl_rl/process.py"] = Path(rl_process.__file__)
     sources["btl_train/operations.py"] = Path(train_operations.__file__)
+    sources["btl_rl/artifacts.py"] = Path(rl_artifacts.__file__)
+    sources["btl_rl/evaluation.py"] = Path(rl_evaluation.__file__)
+    sources["btl_rl/runtime.py"] = Path(rl_runtime.__file__)
+    sources["btl_measure/core.py"] = Path(measure_core.__file__)
     return {name: sha256(path) for name, path in sources.items()}
 
 

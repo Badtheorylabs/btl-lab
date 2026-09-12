@@ -5,7 +5,7 @@ __pycache__/
 build/
 dist/
 # Private workspace inventory and audit material are not release inputs.
-projects.json
+/projects.json
 *CLEANUP*.json
 LARGE_FILE_INVENTORY*.json
 cleanup-*

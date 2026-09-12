@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "project_id": "workspace/btl-lab",
+  "title": "Exercise the local study lifecycle",
+  "question": "Can the same audit be run twice with complete provenance?",
+  "hypothesis": "This example exercises orchestration and records both observations.",
+  "falsification": "A failed or missing observation makes the example inconclusive.",
+  "arms": {
+    "baseline": {
+      "recipe": "registry-audit"
+    },
+    "candidate": {
+      "recipe": "registry-audit"
+    }
+  },
+  "controls": {
+    "workload": "The identical workspace path audit. Any timing difference is noise, not a speed claim."
+  },
+  "metric": {
+    "field": "elapsed_seconds",
+    "direction": "min",
+    "minimum_relative_improvement": 0.1
+  },
+  "repeats": 1,
+  "evidence_class": "integrity",
+  "required_evidence_roles": [
+    "arm-observation"
+  ],
+  "external_spend_cap_usd": 0,
+  "inputs": [
+    ".btl/projects.json"
+  ],
+  "literature": []
+}

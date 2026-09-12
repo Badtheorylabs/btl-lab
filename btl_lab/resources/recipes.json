@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "recipes": [
+    {
+      "id": "registry-audit",
+      "title": "Verify this workspace's registered paths",
+      "project_id": "workspace/btl-lab",
+      "backend": "local-audit",
+      "operation": "registry-audit",
+      "status": "local-check"
+    },
+    {
+      "id": "prime-rl-reverse-text",
+      "title": "Inspect the pinned Prime-RL reverse-text recipe",
+      "project_id": "workspace/btl-rl",
+      "backend": "prime-rl",
+      "operation": "rl",
+      "status": "plan-only",
+      "repository": "https://github.com/PrimeIntellect-ai/prime-rl",
+      "revision": "dad79d1ce85390a2c818416ef100677f53f8c1ec",
+      "config": "examples/basic/reverse-text/rl.toml",
+      "required_gpus": 2
+    }
+  ]
+}

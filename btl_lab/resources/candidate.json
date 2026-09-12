@@ -1,0 +1,17 @@
+{
+  "model_id": "illustrative-model",
+  "model_revision": "example-after",
+  "taskset_id": "illustrative-format-demo",
+  "taskset_revision": "example-v1",
+  "scope": "Handwritten format example; not measured model behavior",
+  "records": [
+    {
+      "id": "example-1",
+      "passed": true
+    },
+    {
+      "id": "example-2",
+      "passed": true
+    }
+  ]
+}

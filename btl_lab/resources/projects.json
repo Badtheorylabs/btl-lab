@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "projects": [
+    {
+      "id": "workspace/btl-lab",
+      "path": ".",
+      "primary_program": "lab",
+      "lifecycle": "proposed",
+      "owner": null,
+      "source_documents": [],
+      "purpose": "Local BTL lab work",
+      "evidence_status": "untested"
+    },
+    {
+      "id": "workspace/btl-train",
+      "path": ".",
+      "primary_program": "systems-performance",
+      "lifecycle": "proposed",
+      "owner": null,
+      "source_documents": [],
+      "purpose": "Local BTL train work",
+      "evidence_status": "untested"
+    },
+    {
+      "id": "workspace/btl-rl",
+      "path": ".",
+      "primary_program": "systems-performance",
+      "lifecycle": "proposed",
+      "owner": null,
+      "source_documents": [],
+      "purpose": "Local BTL rl work",
+      "evidence_status": "untested"
+    },
+    {
+      "id": "workspace/btl-kernels",
+      "path": ".",
+      "primary_program": "systems-performance",
+      "lifecycle": "proposed",
+      "owner": null,
+      "source_documents": [],
+      "purpose": "Local BTL kernels work",
+      "evidence_status": "untested"
+    },
+    {
+      "id": "workspace/btl-measure",
+      "path": ".",
+      "primary_program": "agents-evaluation",
+      "lifecycle": "proposed",
+      "owner": null,
+      "source_documents": [],
+      "purpose": "Local BTL measure work",
+      "evidence_status": "untested"
+    }
+  ]
+}
